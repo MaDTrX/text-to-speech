@@ -5,31 +5,27 @@
     <title>Text to Speech</title>
   </head>
   <body class="container mt-5 bg-dark">
-    <h1 class="text-light">Text to Speech</h1>
-    <p class="lead text-light mt-4">Select Voice</p>
-    
-    <select id="voices" class="form-select bg-secondary text-light"></select>
-
-    <div class="d-flex mt-4 text-light">
-      <div>
-        <p class="lead">Volume</p>
-        <input type="range" min="0" max="1" value="1" step="0.1" id="volume" />
-        <span id="volume-label" class="ms-2">1</span>
-      </div>
-      <div class="mx-5">
-        <p class="lead">Rate</p>
-        <input type="range" min="0.1" max="10" value="1" id="rate" step="0.1" />
-        <span id="rate-label" class="ms-2">1</span>
-      </div>
-      <div>
-        <p class="lead">Pitch</p>
-        <input type="range" min="0" max="2" value="1" step="0.1" id="pitch" />
-        <span id="pitch-label" class="ms-2">1</span>
-      </div>
+    <div class="d-flex mt-4 text-light" id="captions">
+    <div>His wind-swirled fingertips
+      untangle the roots of salt water,
+      thorned with wrens
+   </div>
+    <div> pecking at roans
+      whipping their manes
+      toward some new sunlight,
+      some new charred horse bit’s history.</div>
+    <div>Cornered into being a son
+      he should have never
+      left a snow-tipped leaf’s edge</div>
+    <div>in the hillside
+      where a barren cloud’s porous skull
+      keeps a winter house.</div>
+    <div>Coyote, open-jawed,
+      limp shoulder against his ear,
+      its silhouette: midnight blue
+      a satchel of stars where its tail snaps
+      awake</div>
     </div>
-
-    <textarea class="form-control bg-dark text-light mt-5" cols="30" rows="10" placeholder="Type here..."></textarea>
-
     <div class="mb-5">
       <button id="start" class="btn btn-success mt-5 me-3">Start</button>
       <button id="pause" class="btn btn-warning mt-5 me-3">Pause</button>
