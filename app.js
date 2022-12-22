@@ -1,59 +1,38 @@
 console.log("linked Correctly");
 
-class gods {
-  constructor(name, gender, power, captions) {
-    this.name = name;
-    this.gender = gender;
-    this.power = power;
-  }
-}
+// class gods {
+//   constructor(name, gender, power, captions) {
+//     this.name = name;
+//     this.gender = gender;
+//     this.power = power;
+//   }
+// }
 
-const godsProstatis = new gods("Prostatatis", "male", "Protector");
-const godsOTheos = new gods("O Theos tou Polemon", "male", "War");
-const godsOThea = new gods("O Thea tou Nerou", "female", "Water");
+// const godsProstatis = new gods("Prostatatis", "male", "Protector");
+// const godsOTheos = new gods("O Theos tou Polemon", "male", "War");
+// const godsOThea = new gods("O Thea tou Nerou", "female", "Water");
 
-class superHuman {
-  constructor(name, ability, role, captions) {
-    this.name = name;
-    this.gender = gender;
-    this.role = role;
-  }
-}
+// class superHuman {
+//   constructor(name, ability, role, gender) {
+//     this.name = name;
+//     this.gender = gender;
+//     this.role = role;
+//   }
+// }
 
-const superHumanOfilia = new superHuman("Ofilia", "immortality", "servant");
+// const superHumanOfilia = new superHuman("Ofilia", "immortality", "servant");
 
-const synth = window.speechSynthesis;
-let speech = new SpeechSynthesisUtterance();
-let voices;
-let voiceIndex = 6;
-
-function loadVoices() {
-  voices = synth.getVoices();
-  for (let i = 0; i < voices.length; i++) {
-    const option = document.createElement("option");
-    option.textContent = `${voices[i].name} (${voices[i].lang})`;
-    option.value = i;
-    // voiceSelect.appendChild(option);
-  }
-}
-
-if ("onvoiceschanged" in synth) {
-  synth.onvoiceschanged = loadVoices;
-} else {
-  loadVoices();
-}
-
-function textToSpeech(text) {
-  const utterThis = new SpeechSynthesisUtterance(text);
-  utterThis.voice = voices[voiceIndex];
-  synth.speak(utterThis);
-}
 
 // Modal
 
 const myBtn = document.querySelector("#myBtn");
 const modal = document.querySelector(".modal");
 const closeButton = document.querySelector(".close");
+const slides = document.querySelectorAll(".slide");
+const captions = document.querySelectorAll(".slide > p")
+const next = document.querySelector("#next-slide");
+const prev = document.querySelector(".prev");
+const reset = document.querySelector("#reset");
 
 //each windowOnClick, classlist toggle() will add CSS class if it does not exit in the classlist array and return true and false if the css class exists the method will remove the class.  Show those attributes on the click for the CCS property show-modal.
 
@@ -74,12 +53,42 @@ closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 
 //Carousal
+let speech = new SpeechSynthesisUtterance();
+  
+//assigning a language
+speech.lang = "en";
+
+//creating an empty array that will contain voices
+let voice = []
+
+//load voices asynchronously
+window.speechSynthesis.onvoiceschanged = () => {
+  voices = window.speechSynthesis.getVoices();
+  speech.voice = voices[51];
+}
+
+speech.volume = 1
+let i = 1
+const speechCompleted = () => {
+  speech.text = captions[i].innerText
+  window.speechSynthesis.speak(speech);
+  i++
+  next.click()
+}
+
+document.querySelector("#start").addEventListener("click", () => {
+  //when we press starrt its wait 6 seconda before ==> this delay can be annoying for a user
+  //the set interval doesnt stop ==> clear set interval
+  speech.text = captions[0].innerText
+  window.speechSynthesis.speak(speech);
+  setInterval(speechCompleted, 20000)
+
+})
 
 let currentImgIndex = 0;
 let previousImgIndex = 0;
-const slides = document.querySelectorAll(".slide");
+
 console.log(slides);
-const next = document.querySelector("#next-slide");
 
 next.addEventListener("click", () => {
   // we may want to pause the text to speech
@@ -91,11 +100,7 @@ next.addEventListener("click", () => {
   }
   slides[currentImgIndex].style.display = "block";
   slides[previousImgIndex].style.display = "none";
-  textToSpeech("p");
-  console.log(textToSpeech);
 });
-
-const prev = document.querySelector(".prev");
 
 prev.addEventListener("click", () => {
   previousImgIndex = currentImgIndex;
@@ -104,47 +109,35 @@ prev.addEventListener("click", () => {
   } else {
     return;
   }
-  textToSpeech(" p");
+  // textToSpeech(" p");
   slides[currentImgIndex].style.display = "block";
   slides[previousImgIndex].style.display = "none";
 });
-
-const reset = document.querySelector("#reset");
 
 reset.addEventListener("click", () => {
   previousImgIndex = currentImgIndex;
   if (currentImgIndex > 0) {
     currentImgIndex = 0;
+    // i = 0/1
   } else {
     return;
   }
-  textToSpeech(" p");
+  // textToSpeech(" p");
   slides[currentImgIndex].style.display = "block";
   slides[previousImgIndex].style.display = "none";
 });
 
-// let speechText;
-
-// document.querySelector("#start").addEventListener("click", () => {
-//   //when we press starrt its wait 6 seconda before ==> this delay can be annoying for a user
-//   //the set interval doesnt stop ==> clear set interval
-//   speech.text = captions[0].innerText;
-//   console.log(speech.text);
-//   window.speechSynthesis.speak(speech);
-//   const readCaptions = setInterval(speechCompleted, speed); //just enuogh to fully read the whole prompt
-// });
-
-// document.querySelector("#pause").addEventListener("click", () => {
-//   window.speechSynthesis.pause();
-
-//   console.log(pause);
-// });
-
-// document.querySelector("#resume").addEventListener("click", () => {
-//   window.speechSynthesis.resume();
-// });
-
-// document.querySelector("#reset").addEventListener("click", () => {
-//   // window.speechSynthesis.reset();
-//   slides.reset(0);
-// });
+  //just enuogh to fully read the whole prompt
+  // });
+  
+  // document.querySelector("#pause").addEventListener("click", () => {
+  //   window.speechSynthesis.pause();
+  // });
+  
+  // document.querySelector("#resume").addEventListener("click", () => {
+  //   window.speechSynthesis.resume();
+  // });
+  
+  // document.querySelector("#cancel").addEventListener("click", () => {
+  //   window.speechSynthesis.cancel();
+  // });
